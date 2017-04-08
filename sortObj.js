@@ -1,24 +1,18 @@
-function sortObj(obj) {
-    function compareObj(a, b) {
-        try { a = JSON.stringify(a); } catch (e) {}
-        try { b = JSON.stringify(b); } catch (e) {}
-        return a > b ? 1 : -1;
-    }
-
-    let res;
-    if (obj instanceof Array) {
-        for (var item of obj) {
-            item = sortObj(item);
+function selectText(parent, children, event) {
+    $(parent).on(event, children, function (event) {
+        var range, selection, that = this;
+        if (document.body.createTextRange) {
+            // IE
+            range = document.body.createTextRange();
+            range.moveToElementText(that);
+            range.select();
+        } else if (window.getSelection) {
+            // Others
+            selection = window.getSelection();
+            range = document.createRange();
+            range.selectNodeContents(that);
+            selection.removeAllRanges();
+            selection.addRange(range);
         }
-        res = obj.sort(compareObj);
-    } else if (obj instanceof Object) {
-        res = {};
-        for (var key of Object.keys(obj).sort()) {
-            res[key] = obj[key] instanceof Object ? sortObj(obj[key]) : obj[key];
-        }
-    } else {
-        res = obj;
-    }
-    return res;
+    });
 }
-

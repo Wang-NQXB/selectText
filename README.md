@@ -1,6 +1,6 @@
 # sortObj
-Check if two object are loosely equal - that is, do they have the same shape?
+select text in DOM to clipboard
 
 ```js
-  JSON.stringify(sortObj(obj1)) === JSON.stringify(sortObj(obj2));
+    selectText('table', 'td', 'dblclick');
 ```
